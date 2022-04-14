@@ -2,28 +2,33 @@ package com.example.first_project;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
-    EditText et_id;
-    Button btn_test;
+    private Button move_btn;
+    private EditText et_test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        et_id = findViewById(R.id.et_id);   // xml에서 해당 id 값을 가진 view를 가져옴
-        btn_test = findViewById(R.id.btn_test);
+        et_test = findViewById(R.id.et_text);
+        move_btn = findViewById(R.id.btn_move);
 
-        btn_test.setOnClickListener(new View.OnClickListener() {
-
+        move_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                et_id.setText("Custom Input Text");
+                Intent intent = new Intent(MainActivity.this, SubActivity.class);
+                // 현재 Activity 와 이동할 Activity 입력
+
+                intent.putExtra("str", et_test.getText().toString()); // intent에 data 전달
+
+                startActivity(intent); // Activity 이동 함수
             }
         });
     }
