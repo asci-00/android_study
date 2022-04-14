@@ -3,8 +3,13 @@ package com.example.first_project;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +29,14 @@ public class MainActivity extends AppCompatActivity {
         // list item view를 위한 adapter
 
         listView.setAdapter(adp);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                long strText = adapterView.getItemIdAtPosition(i);
 
+                Toast.makeText(getApplicationContext(), String.valueOf(strText), Toast.LENGTH_LONG).show();
+            }
+        });
         items.add("sample list item 1");
         items.add("sample list item 2");
         items.add("sample list item 3");
