@@ -3,28 +3,34 @@ package com.example.first_project;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    EditText et_id;
-    Button btn_test;
+    private ListView listView;
+    private List<String> items = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        et_id = findViewById(R.id.et_id);   // xml에서 해당 id 값을 가진 view를 가져옴
-        btn_test = findViewById(R.id.btn_test);
+        listView = findViewById(R.id.list_view);
+        ArrayAdapter<String> adp =
+                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
+        // list item view를 위한 adapter
 
-        btn_test.setOnClickListener(new View.OnClickListener() {
+        listView.setAdapter(adp);
 
-            @Override
-            public void onClick(View view) {
-                et_id.setText("Custom Input Text");
-            }
-        });
+        items.add("sample list item 1");
+        items.add("sample list item 2");
+        items.add("sample list item 3");
+        items.add("sample list item 4");
+        items.add("sample list item 5");
+
+        adp.notifyDataSetChanged(); // data 적용(필수)
     }
 }
