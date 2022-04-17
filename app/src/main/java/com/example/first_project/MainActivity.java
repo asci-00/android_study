@@ -4,7 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import org.mozilla.javascript.Context;
@@ -20,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     };
 
     private String now_stat = "";
-    private TextView calc_stat, result_view;
+    private EditText result_view;
     private Context rhino = Context.enter();
     private ScriptableObject scope;
 
@@ -32,8 +33,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         rhino.setOptimizationLevel(-1);
         scope = rhino.initStandardObjects();
 
-        calc_stat = findViewById(R.id.calc_stat);
         result_view = findViewById(R.id.result);
+        result_view.setShowSoftInputOnFocus(false);
+        result_view.requestFocus();
 
         for(String id: btn_id)
             findViewById(getResources().getIdentifier("btn_" + id, "id", getPackageName()))
@@ -42,7 +44,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setState(String state) {
         now_stat = state;
-        calc_stat.setText(now_stat);
+        result_view.setText(now_stat);
+
+        result_view.setSelection(now_stat.length());
     }
 
     @Override
@@ -50,22 +54,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch(view.getId()) {
             case R.id.btn_clear:
                 setState("");
-                return;
+                break;
             case R.id.btn_equal:
                 try {
-                    result_view.setText(rhino.evaluateString(scope, now_stat, "JavaScript", 1, null).toString());
+                    if(now_stat.trim().length() > 0)
+                        setState(rhino.evaluateString(
+                                scope,
+                                now_stat,
+                                "JavaScript",
+                                1,
+                                null
+                        ).toString());
                 } catch (Exception e) {
                     Toast.makeText(this, "불가능한 식 입니다.", Toast.LENGTH_SHORT).show();
                 }
-                return;
+                break;
             default:
                 String clicked = view.getTag().toString();
 
-                if(!clicked.matches("[+-]?\\d*(\\.\\d+)?") && clicked != ".") {
-                    setState(String.format(" %s %s ", now_stat, clicked));
-                }
-                else setState(now_stat + clicked);
-                return;
+                if(clicked.matches("[.]?\\d*(\\.\\d+)?"))
+                    setState(now_stat + clicked);
+                else setState(String.format(" %s %s ", now_stat, clicked));
+                break;
         }
     }
 }
