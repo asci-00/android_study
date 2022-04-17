@@ -61,10 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             default:
                 String clicked = view.getTag().toString();
 
-                if(     clicked.equals("+") ||
-                        clicked.equals("-") ||
-                        clicked.equals("*") ||
-                        clicked.equals("/")) {
+                if(!clicked.matches("[+-]?\\d*(\\.\\d+)?") && clicked != ".") {
                     setState(String.format(" %s %s ", now_stat, clicked));
                 }
                 else setState(now_stat + clicked);
