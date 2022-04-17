@@ -8,23 +8,51 @@
     android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="200dp"
-        ></LinearLayout>
-    <GridLayout
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#ddd"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Result View"
+            android:textAlignment="center"
+            android:textSize="30sp"/>
+    </LinearLayout>
+    <TextView
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textAlignment="center"
+        android:text="Navigation bar"
+        android:background="#eee"/>
+    <GridLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:rowCount="5"
         android:columnCount="4"
-        >
+        android:layout_gravity="center">
 
-        <Button
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:text="7"
-            android:textSize="20sp"
-            android:textColor="@color/white"
-            android:background="@drawable/circle_button"/>
+        <Button android:text="7" style="@style/number_button" />
+        <Button android:text="8" style="@style/number_button" />
+        <Button android:text="9" style="@style/number_button" />
+        <Button android:text="x" style="@style/number_button" />
+
+        <Button android:text="4" style="@style/number_button" />
+        <Button android:text="5" style="@style/number_button" />
+        <Button android:text="6" style="@style/number_button" />
+        <Button android:text="-" style="@style/number_button" />
+
+        <Button android:text="1" style="@style/number_button" />
+        <Button android:text="2" style="@style/number_button" />
+        <Button android:text="3" style="@style/number_button" />
+        <Button android:text="+" style="@style/number_button" />
+
+        <Button android:text="+/-" style="@style/number_button" />
+        <Button android:text="0" style="@style/number_button" />
+        <Button android:text="." style="@style/number_button" />
+        <Button android:text="=" style="@style/number_button" />
     </GridLayout>
 </LinearLayout>
