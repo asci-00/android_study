@@ -2,6 +2,7 @@ package com.example.first_project;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -17,7 +18,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             "5", "6", "7", "8",
             "9", "0", "plus", "minus",
             "dot", "equal", "clear",
-            "bracket", "mod", "div", "multi"
+            "bracket", "mod", "div", "multi",
+            "backspace"
     };
 
     private String now_stat = "";
@@ -42,6 +44,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .setOnClickListener(this);
     }
 
+    private void backspace() {
+        int position = result_view.getSelectionStart();
+
+        if(position == 0) return;
+        setState(now_stat.substring(0, position - 1) + now_stat.substring(position, now_stat.length()));
+        result_view.setSelection(position - 1);
+    }
+
+    private void input(String ch) {
+        int position = result_view.getSelectionStart();
+
+        setState(now_stat.substring(0, position) + ch + now_stat.substring(position, now_stat.length()));
+        result_view.setSelection(position + 1);
+    }
+
     private void setState(String state) {
         now_stat = state;
         result_view.setText(now_stat);
@@ -52,29 +69,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch(view.getId()) {
-            case R.id.btn_clear:
-                setState("");
-                break;
+            case R.id.btn_clear: setState(""); break;
+            case R.id.btn_backspace: backspace(); break;
             case R.id.btn_equal:
                 try {
-                    if(now_stat.trim().length() > 0)
-                        setState(rhino.evaluateString(
-                                scope,
-                                now_stat,
-                                "JavaScript",
-                                1,
-                                null
-                        ).toString());
-                } catch (Exception e) {
-                    Toast.makeText(this, "불가능한 식 입니다.", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            default:
-                String clicked = view.getTag().toString();
+                    if(now_stat.length() > 0)
+                        setState(rhino.evaluateString(scope, now_stat, "JavaScript", 1, null).toString());
 
-                if(clicked.matches("[.]?\\d*(\\.\\d+)?"))
-                    setState(now_stat + clicked);
-                else setState(String.format(" %s %s ", now_stat, clicked));
+                    double value = Double.parseDouble(now_stat);
+
+                    if (value - (int)value == 0) setState((int)value + "");
+                } catch (Exception e) { Toast.makeText(this, "불가능한 식 입니다.", Toast.LENGTH_SHORT).show(); }
+                break;
+
+            default:
+                input(view.getTag().toString());
                 break;
         }
     }
