@@ -87,12 +87,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_clear: setState(""); break;
             case R.id.btn_backspace: backspace(); break;
             case R.id.btn_history:
-                transaction = getSupportFragmentManager().beginTransaction();
+                transaction = getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(
+                                R.anim.fade_in,
+                                R.anim.fade_out,
+                                R.anim.fade_in,
+                                R.anim.fade_out
+                        ).setReorderingAllowed(true);
 
                 if(frame_state) {
                     transaction
                             .add(R.id.frame_view, history)
-                            .setReorderingAllowed(true)
                             .addToBackStack("control")
                             .commit();
                 } else {
