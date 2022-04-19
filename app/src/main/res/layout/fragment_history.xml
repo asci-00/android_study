@@ -2,13 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="240dp"
     android:layout_height="match_parent"
-    android:background="#B7EEEEEE">
-    <TextView
+    android:background="#111">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycle_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textSize="50dp"
-        android:text="history view"/>
+        android:layout_height="match_parent"
+        android:background="@drawable/layout"
+        android:paddingVertical="20dp"
+        android:scrollbarFadeDuration="0"
+        android:scrollbarSize="5dp"
+        android:scrollbars="vertical"
+        android:layout_weight="1"
+        android:paddingLeft="20dp" />
 </LinearLayout>
