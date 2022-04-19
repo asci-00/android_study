@@ -1,9 +1,12 @@
 package com.example.first_project;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -12,20 +15,22 @@ import android.widget.Toast;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ScriptableObject;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private String[] btn_id = {
-            "1", "2", "3", "4",
-            "5", "6", "7", "8",
-            "9", "0", "plus", "minus",
-            "dot", "equal", "clear",
-            "bracket", "mod", "div", "multi",
-            "backspace"
+            "backspace",
+            "history", "unit", "detail", "backspace"
     };
 
     private String now_stat = "";
     private EditText result_view;
     private Context rhino = Context.enter();
     private ScriptableObject scope;
+
+    private FragmentTransaction transaction;
+    private ControlFragment control;
+    private HistoryFragment history;
+
+    private boolean frame_state = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         result_view = findViewById(R.id.result);
         result_view.setShowSoftInputOnFocus(false);
         result_view.requestFocus();
+
+        transaction = getSupportFragmentManager().beginTransaction();
+
+        control = new ControlFragment();
+        history = new HistoryFragment();
+
+        control.setButtonClickListener(this);
+        transaction
+                .replace(R.id.frame_view, control)
+                .commit();
 
         for(String id: btn_id)
             findViewById(getResources().getIdentifier("btn_" + id, "id", getPackageName()))
@@ -71,6 +86,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch(view.getId()) {
             case R.id.btn_clear: setState(""); break;
             case R.id.btn_backspace: backspace(); break;
+            case R.id.btn_history:
+                transaction = getSupportFragmentManager().beginTransaction();
+
+                if(frame_state) {
+                    transaction
+                            .add(R.id.frame_view, history)
+                            .setReorderingAllowed(true)
+                            .addToBackStack("control")
+                            .commit();
+                } else {
+                    getSupportFragmentManager().popBackStack();
+                }
+
+                frame_state = !frame_state;
+                break;
             case R.id.btn_equal:
                 try {
                     if(now_stat.length() > 0)
