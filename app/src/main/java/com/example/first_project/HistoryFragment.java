@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -25,6 +26,7 @@ public class HistoryFragment extends Fragment {
     private ArrayList<ListItem> list;
     private CustomAdapter customAdapter;
     private RecyclerView recyclerView;
+    private Button reset_btn;
     private LinearLayoutManager linearLayoutManager;
 
     @Nullable
@@ -35,12 +37,24 @@ public class HistoryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
 
         recyclerView = view.findViewById(R.id.recycle_view);
+        reset_btn = view.findViewById(R.id.reset_btn);
+
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
 
         list = new ArrayList<>();
 
-        customAdapter = new CustomAdapter(list);
+        customAdapter = new CustomAdapter(list, (clickedResult) -> ((MainActivity)getActivity()).setState(clickedResult));
+        reset_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().deleteFile("history");
+
+                list = new ArrayList<>();
+                customAdapter.notifyDataSetChanged();
+            }
+        });
+
         recyclerView.setAdapter(customAdapter);
 
         return view;

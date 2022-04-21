@@ -9,11 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
+    private final Consumer<String> onItemClick;
     private ArrayList<ListItem> list;
 
-    public CustomAdapter(ArrayList<ListItem> list) {
+    public CustomAdapter(ArrayList<ListItem> list, Consumer<String> onItemClick) {
+        this.onItemClick = onItemClick;
         this.list = list;
     }
 
@@ -28,11 +31,17 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.result.setText(list.get(position).getResult());
+        holder.result.setText("=" + list.get(position).getResult());
         holder.formula.setText(list.get(position).getFormula());
 
         holder.itemView.setTag(position);
-//        holder.itemView.setOnClickListener();
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String result = list.get(holder.getAdapterPosition()).getResult();
+                onItemClick.accept(result);
+            }
+        });
     }
 
     @Override

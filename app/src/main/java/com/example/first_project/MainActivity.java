@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FileOutputStream fos;
     private PrintWriter write;
 
+    private boolean resultVisible;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         control = new ControlFragment();
         history = new HistoryFragment();
+
+        resultVisible = false;
 
         control.setButtonClickListener(this);
         transaction
@@ -76,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         result_view.setSelection(position + 1);
     }
 
-    private void setState(String state) {
+    public void setState(String state) {
         now_stat = state;
         result_view.setText(now_stat);
 
@@ -87,7 +91,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch(view.getId()) {
             case R.id.btn_clear: setState(""); break;
-            case R.id.btn_backspace: backspace(); break;
+            case R.id.btn_backspace:
+                resultVisible = false;
+                backspace();
+                break;
             case R.id.btn_history:
                 transaction = getSupportFragmentManager()
                         .beginTransaction()
@@ -112,27 +119,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_equal:
                 try {
                     fos = openFileOutput("history", android.content.Context.MODE_APPEND);
-                    write = new PrintWriter(fos);
 
+                    write = new PrintWriter(fos);
                     write.println(now_stat);
                     if(now_stat.length() <= 0) break;
 
                     String result = rhino.evaluateString(scope, now_stat, "JavaScript", 1, null).toString();
-                    double value = Double.parseDouble(result);
-                    value = (long)(value * ROUND_UNIT) / ROUND_UNIT;
+                    double resultValue = Double.parseDouble(result);
+                    resultValue = (long)(resultValue * ROUND_UNIT) / ROUND_UNIT;
 
-                    if (value - (int)value == 0) setState(Long.toString((long)value));
-                    else setState(Double.toString(value));
+                    if (resultValue - (int)resultValue == 0) setState(Long.toString((long)resultValue));
+                    else setState(Double.toString(resultValue));
 
-                    write.println("=" + now_stat);
+                    write.println(now_stat);
                     write.close();
+
+                    resultVisible = true;
                 } catch (Exception e) { Toast.makeText(this, "불가능한 식 입니다.", Toast.LENGTH_SHORT).show(); }
                 break;
             case R.id.btn_unit:
             case R.id.btn_detail:
                 break;
             default:
-                input(view.getTag().toString());
+                String clicked = view.getTag().toString();
+
+                if(resultVisible) {
+                    if(clicked.matches("\\d*(\\.\\d+)?")) setState(view.getTag().toString());
+                    else input(clicked);
+                    resultVisible = false;
+                }
+                else input(clicked);
                 break;
         }
     }

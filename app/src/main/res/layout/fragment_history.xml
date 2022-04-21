@@ -8,7 +8,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_height="290dp"
+        android:layout_height="285dp"
         android:layout_width="match_parent"
         android:id="@+id/recycle_view"
         android:scrollbars="vertical"
@@ -16,6 +16,7 @@
         android:scrollbarSize="5dp"
         />
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/reset_btn"
         android:background="@drawable/rounded_button"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
