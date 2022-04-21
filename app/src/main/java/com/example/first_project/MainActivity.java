@@ -1,21 +1,21 @@
 package com.example.first_project;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ScriptableObject;
 
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    public static final double ROUND_UNIT = 10000000000.0;
     private String[] btn_id = {
             "backspace",
             "history", "unit", "detail", "backspace"
@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private HistoryFragment history;
 
     private boolean frame_state = true;
+    private FileOutputStream fos;
+    private PrintWriter write;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,15 +111,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_equal:
                 try {
-                    if(now_stat.length() > 0)
-                        setState(rhino.evaluateString(scope, now_stat, "JavaScript", 1, null).toString());
+                    fos = openFileOutput("history", android.content.Context.MODE_APPEND);
+                    write = new PrintWriter(fos);
 
-                    double value = Double.parseDouble(now_stat);
+                    write.println(now_stat);
+                    if(now_stat.length() <= 0) break;
 
-                    if (value - (int)value == 0) setState((int)value + "");
+                    String result = rhino.evaluateString(scope, now_stat, "JavaScript", 1, null).toString();
+                    double value = Double.parseDouble(result);
+                    value = (long)(value * ROUND_UNIT) / ROUND_UNIT;
+
+                    if (value - (int)value == 0) setState(Long.toString((long)value));
+                    else setState(Double.toString(value));
+
+                    write.println("=" + now_stat);
+                    write.close();
                 } catch (Exception e) { Toast.makeText(this, "불가능한 식 입니다.", Toast.LENGTH_SHORT).show(); }
                 break;
-
+            case R.id.btn_unit:
+            case R.id.btn_detail:
+                break;
             default:
                 input(view.getTag().toString());
                 break;
