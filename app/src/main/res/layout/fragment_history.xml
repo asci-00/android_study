@@ -10,11 +10,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_height="290dp"
         android:layout_width="match_parent"
-        android:scrollbarFadeDuration="0"
         android:id="@+id/recycle_view"
-        android:overScrollMode="never"
         android:scrollbars="vertical"
-        android:scrollbarSize="5dp" />
+        android:scrollbarThumbVertical="@drawable/scrollbar_style"
+        android:scrollbarSize="5dp"
+        />
     <androidx.appcompat.widget.AppCompatButton
         android:background="@drawable/rounded_button"
         android:layout_width="wrap_content"
