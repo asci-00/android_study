@@ -50,7 +50,7 @@ public class HistoryFragment extends Fragment {
             public void onClick(View view) {
                 getActivity().deleteFile("history");
 
-                list = new ArrayList<>();
+                list.clear();
                 customAdapter.notifyDataSetChanged();
             }
         });
