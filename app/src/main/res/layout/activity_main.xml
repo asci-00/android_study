@@ -30,7 +30,7 @@
         <LinearLayout
             android:layout_width="120dp"
             android:layout_height="wrap_content">
-            <ImageButton android:id="@+id/btn_history" style="@style/icon_button" android:background="@android:color/transparent" app:tint="#A3A3A3" android:src="@drawable/outline_time"/>
+            <ImageButton android:id="@+id/btn_function" style="@style/icon_button" android:background="@android:color/transparent" app:tint="#A3A3A3" android:src="@drawable/outline_time"/>
             <ImageButton android:id="@+id/btn_unit" style="@style/icon_button" android:background="@android:color/transparent" app:tint="#A3A3A3" android:src="@drawable/outline_straighten"/>
             <ImageButton android:id="@+id/btn_detail" style="@style/icon_button" android:background="@android:color/transparent" app:tint="#A3A3A3" android:src="@drawable/outline_calculate"/>
         </LinearLayout>

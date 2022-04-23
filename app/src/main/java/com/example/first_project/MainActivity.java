@@ -3,6 +3,7 @@ package com.example.first_project;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public static final double ROUND_UNIT = 10000000000.0;
     private String[] btn_id = {
             "backspace",
-            "history", "unit", "detail", "backspace"
+            "function", "unit", "detail", "backspace"
     };
 
     private String now_stat = "";
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FragmentTransaction transaction;
     private ControlFragment control;
     private HistoryFragment history;
+    private ImageButton function_button;
 
     private boolean frame_state = true;
     private FileOutputStream fos;
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         scope = rhino.initStandardObjects();
 
         result_view = findViewById(R.id.result);
+        function_button = findViewById(R.id.btn_function);
         result_view.setShowSoftInputOnFocus(false);
         result_view.requestFocus();
 
@@ -95,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 resultVisible = false;
                 backspace();
                 break;
-            case R.id.btn_history:
+            case R.id.btn_function:
                 transaction = getSupportFragmentManager()
                         .beginTransaction()
                         .setCustomAnimations(
@@ -110,8 +113,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             .add(R.id.frame_view, history)
                             .addToBackStack("control")
                             .commit();
+                    function_button.setImageResource(R.drawable.calculator);
                 } else {
                     getSupportFragmentManager().popBackStack();
+                    function_button.setImageResource(R.drawable.outline_time);
                 }
 
                 frame_state = !frame_state;
