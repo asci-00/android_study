@@ -1,11 +1,5 @@
 package com.example.first_project;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,19 +7,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import java.io.BufferedReader;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import static com.example.first_project.utils.RecyclerView.*;
+
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class HistoryFragment extends Fragment {
-    private ArrayList<ListItem> list;
-    private CustomAdapter customAdapter;
-    private RecyclerView recyclerView;
     private Button reset_btn;
     private LinearLayoutManager linearLayoutManager;
 
@@ -42,15 +36,15 @@ public class HistoryFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        list = new ArrayList<>();
+        listItems = new ArrayList<>();
 
-        customAdapter = new CustomAdapter(list, (clickedResult) -> ((MainActivity)getActivity()).setState(clickedResult));
+        customAdapter = new CustomAdapter(listItems, (clickedResult) -> ((MainActivity)getActivity()).setState(clickedResult));
         reset_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getActivity().deleteFile("history");
 
-                list.clear();
+                listItems.clear();
                 customAdapter.notifyDataSetChanged();
             }
         });
@@ -70,14 +64,12 @@ public class HistoryFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        Log.i("History", "Call onResume");
-        StringBuffer buf = new StringBuffer();
         try {
             FileInputStream fis = getActivity().openFileInput("history");
             Scanner reader = new Scanner(new InputStreamReader(fis));
 
             while(reader.hasNextLine()) {
-                list.add(new ListItem(reader.nextLine(), reader.nextLine()));
+                listItems.add(new ListItem(reader.nextLine(), reader.nextLine()));
             }
 
             customAdapter.notifyDataSetChanged();

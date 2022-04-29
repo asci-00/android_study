@@ -1,5 +1,8 @@
 package com.example.first_project;
 
+import static com.example.first_project.utils.RecyclerView.customAdapter;
+import static com.example.first_project.utils.RecyclerView.listItems;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -33,10 +36,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageButton function_button;
 
     private boolean frame_state = true;
-    private FileOutputStream fos;
-    private PrintWriter write;
 
     private boolean resultVisible;
+
+    private FileOutputStream fos;
+    private PrintWriter writer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,28 +127,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_equal:
                 try {
+                    if(!isValidFormula()) break;
+
                     fos = openFileOutput("history", android.content.Context.MODE_APPEND);
+                    writer = new PrintWriter(fos);
 
-                    write = new PrintWriter(fos);
-                    write.println(now_stat);
-                    if(now_stat.length() <= 0) break;
+                    String result = getCalculatedResult();
 
-                    String result = rhino.evaluateString(scope, now_stat, "JavaScript", 1, null).toString();
-                    double resultValue = Double.parseDouble(result);
-                    resultValue = (long)(resultValue * ROUND_UNIT) / ROUND_UNIT;
+                    listItems.add(new ListItem(now_stat, result));
+                    customAdapter.notifyDataSetChanged();
 
-                    if (resultValue - (int)resultValue == 0) setState(Long.toString((long)resultValue));
-                    else setState(Double.toString(resultValue));
+                    writer.write(now_stat);
+                    writer.write(result);
 
-                    write.println(now_stat);
-                    write.close();
+                    setState(result);
 
                     resultVisible = true;
+
+                    writer.close();
+                    fos.close();
                 } catch (Exception e) { Toast.makeText(this, "불가능한 식 입니다.", Toast.LENGTH_SHORT).show(); }
                 break;
-            case R.id.btn_unit:
-            case R.id.btn_detail:
-                break;
+            case R.id.btn_unit: case R.id.btn_detail: break;
             default:
                 String clicked = view.getTag().toString();
 
@@ -156,5 +160,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 else input(clicked);
                 break;
         }
+    }
+
+    private String getCalculatedResult() {
+        double resultValue = Double.parseDouble(rhino.evaluateString(scope, now_stat, "JavaScript", 1, null).toString());
+        resultValue = (long)(resultValue * ROUND_UNIT) / ROUND_UNIT;
+
+        return (resultValue - (int)resultValue == 0) ? Long.toString((long)resultValue) : Double.toString(resultValue);
+    }
+
+    private Boolean isValidFormula() {
+        return now_stat.length() > 0;
     }
 }
