@@ -7,20 +7,23 @@
     tools:context=".MainActivity"
     android:orientation="vertical"
     android:background="#111">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
+
         <EditText
             android:id="@+id/result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="textEnd"
             android:layout_margin="30dp"
-            android:textSize="30sp"
             android:background="@null"
-            android:textColor="@color/white"/>
+            android:textAlignment="textEnd"
+            android:textColor="@color/white"
+            android:textSize="30sp" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

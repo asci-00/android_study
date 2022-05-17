@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_equal:
                 try {
-                    if(!isValidFormula()) break;
+                    if(!isValidFormula(now_stat)) break;
 
                     fos = openFileOutput("history", android.content.Context.MODE_APPEND);
                     writer = new PrintWriter(fos);
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return (resultValue - (int)resultValue == 0) ? Long.toString((long)resultValue) : Double.toString(resultValue);
     }
 
-    private Boolean isValidFormula() {
+    private Boolean isValidFormula(String formula) {
         return now_stat.length() > 0;
     }
 }
