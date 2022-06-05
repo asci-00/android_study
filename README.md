@@ -28,11 +28,48 @@
 ```
 activity는 manifest 파일에 선언됨 ( 필수 property는 name ) 
 
+---
+## 🤔 Intent
+
+> 메시징 객체로, 서로 다른 App 구성요소간 작업을 요청하는 데 사용
+> 
+> 크게 `Starting an Activity` `Starting an Service` `Delivering a broadcase` 3가지 방식으로 통신을 수행
+
+### `Starting an Activity`
+
+- Activity의 새 instance를 시작할 때, 액티비티를 설명하고 모든 필수 데이터를 넘겨줌
+- `startActivity(Intent)` 결과값이 필요 없는 경우 사용
+- `startActivityForResult(Intent, int)` 결과값을 사용하는 경우 - `onActivityResult(int, int, Intent)`를 사용하여 데이터 수신 
+
+### Activity 조정
+
+> Activity A에서 Activity B를 시작하게 되면 아래와 같은 과정을 거침
+
+1. Activity A -> onPause() call
+2. Activity B -> onCreate(), onStart(), onResume() call + focus on
+3. Activity A -> 화면에서 지워지면 onStop() call
+
+### Activity간 통신
+
+> 앱이 새 활동을 시작하면서 startActivity(android.content.Intent)에 사용할 
+> 
+> Intent 객체를 생성할 때 putExtra(java.lang.String, java.lang.String)
+> 
+> 메서드를 사용하여 매개변수를 전달할 수 있음
+ 
+``````
+
 ### 활동 수명 주기 관리
 
 > 활동은 수명 주기 전체 기간에 걸쳐 여러 상태를 거침
 > 
 > 상태 간 전환을 처리하는 데 일련의 콜백을 사용 가능
+> 
+> 해당 method들을 overriding 할 수도 있으며, 
+> 
+> LifecycleObserver를 implements한 후,
+> 
+> @OnLifecycleEvent(Lifecycle.Event.ON_[STATE])를 통해 이벤트를 수신받았을 때 Handling을 수행할 수 있음
 
 ### `onCreate()`
 
@@ -40,23 +77,27 @@ activity는 manifest 파일에 선언됨 ( 필수 property는 name )
     - 앱은 여기에서 뷰를 생성하고 데이터를 목록에 결합
     - 이 단계에서 setContentView()를 호출하여 활동의 사용자 인터페이스를 위한 레이아웃을 정의해야 함
     - onCreate()가 완료되면 다음 콜백은 항상 onStart()가 수행됨
+- 활동을 ViewModel과 연결 + saveInstanceState 매개변수를 수신함 (활동의 이전 저장 상태가 포함된 Bundle 객체 - 처음 생성된 경우는 null) 
 
 ### `onStart()`
 
 - onCreate()가 종료되면 활동은 '시작됨' 상태로 전환되고 활동이 사용자에게 표시 
-- 활동이 포그라운드로 나와서 대화형이 되기 위한 최종 준비에 준하는 작업을 포함
+- 활동이 `포그라운드`로 나와서 대화형이 되기 위한 최종 준비에 준하는 작업을 포함
 
 ### `onResume()`
 
 - 활동이 사용자와 상호작용을 시작하기 직전에 시스템은 이 콜백을 호출
+- 실제로 포그라운드에 화면이 표시됨
+- 포커스가 해제될 때까지 어플리케이션이 이 상태에서 머무름   
 - 이 시점에서 활동은 활동 스택의 가장 위에 있으며 모든 사용자 입력을 캡처
 - 앱의 핵심 기능은 대부분 onResume() 메서드로 구현됨
+- onPause 이후에 onResume으로 진입할 수 있으므로, onPause에서 해제될 수 있는 구성요소들을 onResume에서 초기화  
 - onPause() 콜백은 항상 onResume() 뒤에 위치
 
 ### `onPause()`
 
 - 활동이 포커스를 잃고 '일시중지됨' 상태로 전환될 때 시스템은 onPause()를 호출
-- 이 상태는 사용자가 *뒤로* 또는 *최근* 버튼을 탭할 때 발생
+- 이 상태는 사용자가 *뒤로* 또는 *최근* 버튼을 탭할 때 발생 (다른 앱이 위에 표시될 때)
 - 엄밀히 말하면 활동이 여전히 부분적으로 표시되지만<br/> 
   대체로 사용자가 활동을 떠나고 있으며 활동이 조만간 <br/>
   '중지됨' 또는 '다시 시작됨' 상태로 전환됨을 의미함
@@ -85,6 +126,8 @@ activity는 manifest 파일에 선언됨 ( 필수 property는 name )
 - 일반적으로 활동 또는 활동이 포함된 프로세스가 제거될 때 활동의 모든 리소스를 해제하도록 구현
 
 ![image](https://www.google.com/url?sa=i&url=https%3A%2F%2Fjamesdreaming.tistory.com%2F17&psig=AOvVaw3t0xr9zm3wiiF1tnoQ6Fbq&ust=1654508993452000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCIi92ImElvgCFQAAAAAdAAAAABAD)
+
+
 
 ### 크기 단위
 
