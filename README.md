@@ -57,7 +57,7 @@ activity는 manifest 파일에 선언됨 ( 필수 property는 name )
 > 
 > 메서드를 사용하여 매개변수를 전달할 수 있음
  
-``````
+
 
 ### 활동 수명 주기 관리
 
@@ -125,8 +125,7 @@ activity는 manifest 파일에 선언됨 ( 필수 property는 name )
 - 이 콜백은 활동이 수신하는 마지막 콜백입니다. 
 - 일반적으로 활동 또는 활동이 포함된 프로세스가 제거될 때 활동의 모든 리소스를 해제하도록 구현
 
-![image](https://www.google.com/url?sa=i&url=https%3A%2F%2Fjamesdreaming.tistory.com%2F17&psig=AOvVaw3t0xr9zm3wiiF1tnoQ6Fbq&ust=1654508993452000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCIi92ImElvgCFQAAAAAdAAAAABAD)
-
+![image](https://user-images.githubusercontent.com/22098393/172628793-5e69e46c-69cd-4f5c-b75b-313b80d1cfb1.png)
 
 
 ### 크기 단위
