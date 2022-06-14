@@ -31,18 +31,16 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         return holder;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.result.setText("=" + list.get(position).getResult());
         holder.formula.setText(list.get(position).getFormula());
 
         holder.itemView.setTag(position);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String result = list.get(holder.getAdapterPosition()).getResult();
-                onItemClick.accept(result);
-            }
+        holder.itemView.setOnClickListener(v -> {
+            String result = list.get(holder.getAdapterPosition()).getResult();
+            onItemClick.accept(result);
         });
     }
 

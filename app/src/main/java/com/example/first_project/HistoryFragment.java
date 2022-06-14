@@ -11,8 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
-import static com.example.first_project.utils.RecyclerView.*;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
@@ -20,6 +19,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class HistoryFragment extends Fragment {
+    private ArrayList<ListItem> list;
+    private CustomAdapter customAdapter;
+    private RecyclerView recyclerView;
     private Button reset_btn;
     private LinearLayoutManager linearLayoutManager;
 
@@ -36,17 +38,14 @@ public class HistoryFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        listItems = new ArrayList<>();
+        list = new ArrayList<>();
 
-        customAdapter = new CustomAdapter(listItems, (clickedResult) -> ((MainActivity)getActivity()).setState(clickedResult));
-        reset_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().deleteFile("history");
+        customAdapter = new CustomAdapter(list, (clickedResult) -> ((MainActivity)getActivity()).onHistoryClick(clickedResult));
+        reset_btn.setOnClickListener(view1 -> {
+            getActivity().deleteFile("history");
 
-                listItems.clear();
-                customAdapter.notifyDataSetChanged();
-            }
+            list.clear();
+            customAdapter.notifyDataSetChanged();
         });
 
         recyclerView.setAdapter(customAdapter);
@@ -55,21 +54,20 @@ public class HistoryFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        Log.i("History", "Call onStart");
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
+        StringBuffer buf = new StringBuffer();
+        String[] histories;
 
         try {
             FileInputStream fis = getActivity().openFileInput("history");
             Scanner reader = new Scanner(new InputStreamReader(fis));
 
             while(reader.hasNextLine()) {
-                listItems.add(new ListItem(reader.nextLine(), reader.nextLine()));
+                histories = reader.nextLine().split("=");
+                if(histories.length < 2) break;
+
+                list.add(new ListItem(histories[0], histories[1]));
             }
 
             customAdapter.notifyDataSetChanged();

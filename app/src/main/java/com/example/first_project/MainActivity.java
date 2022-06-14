@@ -1,9 +1,7 @@
 package com.example.first_project;
 
-import static com.example.first_project.utils.RecyclerView.customAdapter;
-import static com.example.first_project.utils.RecyclerView.listItems;
-
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -94,6 +92,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         result_view.setSelection(now_stat.length());
     }
 
+    public void onHistoryClick(String result) {
+        resultVisible = true;
+        setState(result);
+    }
+
     @Override
     public void onClick(View view) {
         switch(view.getId()) {
@@ -134,11 +137,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     String result = getCalculatedResult();
 
-                    listItems.add(new ListItem(now_stat, result));
-                    customAdapter.notifyDataSetChanged();
-
-                    writer.write(now_stat);
-                    writer.write(result);
+                    writer.println(String.format("%s=%s", now_stat, result));
 
                     setState(result);
 
@@ -153,7 +152,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String clicked = view.getTag().toString();
 
                 if(resultVisible) {
-                    if(clicked.matches("\\d*(\\.\\d+)?")) setState(view.getTag().toString());
+                    Log.i("Main", String.format("%s is %s", clicked, clicked.matches("\\d+.?\\d{0}")));
+                    if(clicked.matches("\\d+.?\\d{0}")) setState(clicked);
                     else input(clicked);
                     resultVisible = false;
                 }
@@ -170,6 +170,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private Boolean isValidFormula(String formula) {
-        return now_stat.length() > 0;
+        String str = String.format("formula length %d formula.matches %b", formula.length(), formula.matches("[\\-\\*/\\+]"));
+        Log.i("Main", str);
+        return formula.length() > 0 && formula.matches("[-*/+]");
     }
 }
