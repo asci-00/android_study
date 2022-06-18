@@ -1,5 +1,6 @@
 package com.example.first_project;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -107,7 +108,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 resultVisible = false;
                 backspace();
                 break;
-            case R.id.btn_unit: case R.id.btn_detail: break;
+            case R.id.btn_unit: break;
+            case R.id.btn_detail:
+                if(getRequestedOrientation() == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                else setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                break;
 
             case R.id.btn_function:
                 transaction = getSupportFragmentManager()

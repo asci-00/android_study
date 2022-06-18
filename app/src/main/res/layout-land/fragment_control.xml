@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:rowCount="5"
+        android:columnCount="3"
+        android:layout_gravity="center"
+        android:paddingVertical="10dp"
+        android:layout_alignParentLeft="true">
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/white" android:id="@+id/t1" android:text="ex"  android:tag="C" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/white" android:id="@+id/t2" android:text="Rad"  android:tag="()" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/white" android:id="@+id/t3" android:text="√"  android:tag="%" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/white" android:id="@+id/t4" android:text="sin"  android:tag="/" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/white" android:id="@+id/t5" android:text="cos"  android:tag="7" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/white" android:id="@+id/t6" android:text="tan"  android:tag="8" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/white" android:id="@+id/t7" android:text="ln"  android:tag="9" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/white" android:id="@+id/t8" android:text="log"  android:tag="*" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/white" android:id="@+id/t9" android:text="1/x"  android:tag="4" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/white" android:id="@+id/t10" android:text="e^x"  android:tag="5" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/white" android:id="@+id/t11" android:text="x^2"  android:tag="6" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/white" android:id="@+id/t12" android:text="x^y"  android:tag="-" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/white" android:id="@+id/t13" android:text="|x|"  android:tag="1" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/white" android:id="@+id/t14" android:text="𝝿"  android:tag="2" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/white" android:id="@+id/t15" android:text="e"  android:tag="3" />
+    </GridLayout>
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:rowCount="5"
+        android:columnCount="4"
+        android:layout_gravity="center"
+        android:paddingVertical="10dp"
+        android:layout_alignParentRight="true">
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="#E65454" android:id="@+id/btn_clear" android:text="C"  android:tag="C" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/purple_200" android:id="@+id/btn_bracket" android:text="( )"  android:tag="()" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/purple_200" android:id="@+id/btn_mod" android:text="%"  android:tag="%" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/purple_200" android:id="@+id/btn_div" android:text="/"  android:tag="/" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/white" android:id="@+id/btn_7" android:text="7"  android:tag="7" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/white" android:id="@+id/btn_8" android:text="8"  android:tag="8" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/white" android:id="@+id/btn_9" android:text="9"  android:tag="9" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/purple_200" android:id="@+id/btn_multi" android:text="x"  android:tag="*" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/white" android:id="@+id/btn_4" android:text="4"  android:tag="4" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/white" android:id="@+id/btn_5" android:text="5"  android:tag="5" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/white" android:id="@+id/btn_6" android:text="6"  android:tag="6" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/purple_200" android:id="@+id/btn_minus" android:text="-"  android:tag="-" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/white" android:id="@+id/btn_1" android:text="1"  android:tag="1" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/white" android:id="@+id/btn_2" android:text="2"  android:tag="2" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/white" android:id="@+id/btn_3" android:text="3"  android:tag="3" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/purple_200" android:id="@+id/btn_plus" android:text="+"  android:tag="+" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/purple_200" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/white" android:id="@+id/btn_0" android:text="0"  android:tag="0" />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/white" android:id="@+id/btn_dot" android:text="."  android:tag="." />
+        <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="#73C87C" android:id="@+id/btn_equal" android:text="="  android:tag="=" />
+    </GridLayout>
+</RelativeLayout>

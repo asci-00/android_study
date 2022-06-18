@@ -21,7 +21,7 @@
             android:background="@null"
             android:textAlignment="textEnd"
             android:textColor="@color/white"
-            android:textSize="30sp" />
+            android:textSize="25sp" />
     </LinearLayout>
 
     <LinearLayout
