@@ -2,27 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/layout"
-    android:padding="10dp"
-    android:layout_width="250dp"
+    android:layout_width="240dp"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:background="@drawable/fragment_history_background"
+    android:orientation="vertical"
+    android:padding="10dp">
+
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_height="285dp"
-        android:layout_width="match_parent"
         android:id="@+id/recycle_view"
-        android:scrollbars="vertical"
-        android:scrollbarThumbVertical="@drawable/scrollbar_style"
+        android:layout_width="match_parent"
+        android:layout_height="285dp"
         android:scrollbarSize="5dp"
-        />
+        android:scrollbarThumbVertical="@drawable/scrollbar_style"
+        android:scrollbars="vertical" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/reset_btn"
-        android:background="@drawable/rounded_button"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_gravity="center"
-        android:text="계산 기록 삭제"
-        android:textColor="@color/white"
         android:layout_marginTop="10dp"
-        android:paddingHorizontal="30dp"/>
+        android:background="@drawable/rounded_button"
+        android:paddingHorizontal="30dp"
+        android:text="계산 기록 삭제"
+        android:textColor="@color/white" />
 </LinearLayout>

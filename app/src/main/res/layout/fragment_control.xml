@@ -13,8 +13,7 @@
         android:rowCount="5"
         android:columnCount="4"
         android:layout_gravity="center"
-        android:paddingVertical="10dp"
-        android:background="@drawable/layout">
+        android:paddingVertical="10dp">
         <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="#E65454" android:id="@+id/btn_clear" android:text="C"  android:tag="C" />
         <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/purple_200" android:id="@+id/btn_bracket" android:text="( )"  android:tag="()" />
         <androidx.appcompat.widget.AppCompatButton style="@style/button" android:textColor="@color/purple_200" android:id="@+id/btn_mod" android:text="%"  android:tag="%" />

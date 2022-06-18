@@ -15,6 +15,8 @@ import org.mozilla.javascript.ScriptableObject;
 
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public static final double ROUND_UNIT = 10000000000.0;
@@ -105,6 +107,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 resultVisible = false;
                 backspace();
                 break;
+            case R.id.btn_unit: case R.id.btn_detail: break;
+
             case R.id.btn_function:
                 transaction = getSupportFragmentManager()
                         .beginTransaction()
@@ -147,13 +151,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     fos.close();
                 } catch (Exception e) { Toast.makeText(this, "불가능한 식 입니다.", Toast.LENGTH_SHORT).show(); }
                 break;
-            case R.id.btn_unit: case R.id.btn_detail: break;
             default:
                 String clicked = view.getTag().toString();
 
                 if(resultVisible) {
-                    Log.i("Main", String.format("%s is %s", clicked, clicked.matches("\\d+.?\\d{0}")));
-                    if(clicked.matches("\\d+.?\\d{0}")) setState(clicked);
+                    if(isNumeric(clicked)) setState(clicked); // 연산자가 아니면
                     else input(clicked);
                     resultVisible = false;
                 }
@@ -161,7 +163,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
-
+    public static boolean isNumeric(String str) {
+        ParsePosition pos = new ParsePosition(0);
+        NumberFormat.getInstance().parse(str, pos);
+        return str.length() == pos.getIndex();
+    }
     private String getCalculatedResult() {
         double resultValue = Double.parseDouble(rhino.evaluateString(scope, now_stat, "JavaScript", 1, null).toString());
         resultValue = (long)(resultValue * ROUND_UNIT) / ROUND_UNIT;
@@ -170,8 +176,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private Boolean isValidFormula(String formula) {
-        String str = String.format("formula length %d formula.matches %b", formula.length(), formula.matches("[\\-\\*/\\+]"));
-        Log.i("Main", str);
-        return formula.length() > 0 && formula.matches("[-*/+]");
+        return formula.length() > 0;
     }
 }
